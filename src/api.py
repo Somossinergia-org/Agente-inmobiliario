@@ -9,8 +9,12 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from src.agent.orchestrator import RealEstateAgent
@@ -571,6 +575,10 @@ def health():
 
 @app.get("/", tags=["Sistema"])
 def root():
+    static_dir = Path(__file__).resolve().parent.parent / "static"
+    index = static_dir / "index.html"
+    if index.exists():
+        return FileResponse(index)
     return {
         "name": "Agente Inmobiliario Inteligente API",
         "version": "2.0.0",

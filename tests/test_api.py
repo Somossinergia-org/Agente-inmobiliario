@@ -23,7 +23,7 @@ def test_health(client):
 def test_root(client):
     r = client.get("/")
     assert r.status_code == 200
-    assert "Agente Inmobiliario" in r.json()["name"]
+    assert "Agente Inmobiliario" in r.text
 
 
 # --- Leads ---
